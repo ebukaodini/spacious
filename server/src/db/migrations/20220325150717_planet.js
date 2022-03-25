@@ -9,7 +9,7 @@ exports.up = function(knex) {
       id SERIAL PRIMARY KEY NOT NULL,
       name VARCHAR(20) NOT NULL,
       description VARCHAR(300) NOT NULL,
-      code VARCHAR(9) NOT NULL,
+      code VARCHAR(9) UNIQUE NOT NULL,
       picture_url TEXT NOT NULL
     );
   `)

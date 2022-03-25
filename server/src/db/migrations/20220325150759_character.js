@@ -9,7 +9,9 @@ exports.up = function(knex) {
       id SERIAL PRIMARY KEY NOT NULL,
       name VARCHAR(20) NOT NULL,
       description VARCHAR(300) NOT NULL,
-      picture_url TEXT NOT NULL
+      picture_url TEXT NOT NULL,
+      planet VARCHAR(9) NOT NULL,
+      CONSTRAINT fk_planet FOREIGN KEY(planet) REFERENCES planet(code)
     )
   `)
 };
