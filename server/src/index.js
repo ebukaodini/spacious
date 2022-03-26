@@ -1,4 +1,6 @@
 const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+
 const indexRoutes = require('./routes/index');
 const planetsRoutes = require('./routes/planets');
 
@@ -8,6 +10,7 @@ const PORT =
     process.env.PORT_TEST :
     (process.env.PORT || 3000);
 
+app.use(bodyParser())
 app.use(indexRoutes.routes());
 app.use(planetsRoutes.routes());
 
