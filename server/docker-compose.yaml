@@ -5,11 +5,12 @@ services:
     container_name: spacious-backend
     environment:
       - PORT=${PORT}
+      - PORT_TEST=${PORT_TEST}
       - DB_URL=${DB_URL}
       - DB_URL_TEST=${DB_URL_TEST}
     ports:
-      - "3000:${PORT}"
-      - "3001:3001" # For testing
+      - "${PORT}:${PORT}"
+      - "${PORT_TEST}:${PORT_TEST}"
     links:
       - db
     volumes:
