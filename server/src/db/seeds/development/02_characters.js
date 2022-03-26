@@ -4,9 +4,9 @@
  */
 exports.seed = async function (knex) {
   return knex.raw(`
-    DELETE FROM character;
+    DELETE FROM characters;
 
-    INSERT INTO character (name, description, planet, picture_url) VALUES 
+    INSERT INTO characters (name, description, planet, picture_url) VALUES 
     ('Chewbacca', 'Chewbacca, known affectionately to his friends as Chewie, is a Wookiee male warrior, smuggler, mechanic, pilot, and resistance fighter.', 'FN-BBA-22', 'https://upload.wikimedia.org/wikipedia/en/6/6d/Chewbacca-2-.jpg'),
     ('Norbert Ériu', 'Norbert is a farmer.', 'FN-BBA-22', 'https://images.unsplash.com/photo-1588422333078-44ad73367bcb'),
     ('Sümeyye Sitora', 'Sümeyye is a teacher.', 'FN-BBA-22', 'https://images.unsplash.com/photo-1606103955054-99913abd77c8'),

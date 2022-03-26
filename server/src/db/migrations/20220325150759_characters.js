@@ -4,14 +4,14 @@
  */
 exports.up = function(knex) {
   return knex.raw(`
-    DROP TABLE IF EXISTS character;
-    CREATE TABLE character(
+    DROP TABLE IF EXISTS characters;
+    CREATE TABLE characters(
       id SERIAL PRIMARY KEY NOT NULL,
       name VARCHAR(20) NOT NULL,
       description VARCHAR(300) NOT NULL,
       picture_url TEXT NOT NULL,
       planet VARCHAR(9) NOT NULL,
-      CONSTRAINT fk_planet FOREIGN KEY(planet) REFERENCES planet(code)
+      CONSTRAINT fk_planets FOREIGN KEY(planet) REFERENCES planets(code)
     )
   `)
 };
@@ -22,6 +22,6 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.raw(`
-    DROP TABLE character;
+    DROP TABLE characters;
   `)
 };

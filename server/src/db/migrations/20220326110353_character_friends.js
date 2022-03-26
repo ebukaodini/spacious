@@ -10,7 +10,7 @@ exports.up = function (knex) {
       character_id INTEGER,
       friends_id INTEGER[],
       PRIMARY KEY (character_id, friends_id),
-      CONSTRAINT fk_character FOREIGN KEY(character_id) REFERENCES character(id)
+      CONSTRAINT fk_characters FOREIGN KEY(character_id) REFERENCES characters(id)
     );
   `)
 };
