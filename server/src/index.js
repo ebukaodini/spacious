@@ -3,6 +3,7 @@ const bodyParser = require('koa-bodyparser');
 
 const indexRoutes = require('./routes/index');
 const planetsRoutes = require('./routes/planets');
+const charactersRoutes = require('./routes/characters');
 
 const app = new Koa();
 const PORT =
@@ -13,6 +14,7 @@ const PORT =
 app.use(bodyParser())
 app.use(indexRoutes.routes());
 app.use(planetsRoutes.routes());
+app.use(charactersRoutes.routes())
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
