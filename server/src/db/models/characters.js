@@ -1,5 +1,4 @@
 const knex = require('../knex');
-const { getAllPlanets } = require('./planets');
 
 function getAllCharacters() {
   return knex.raw(`
