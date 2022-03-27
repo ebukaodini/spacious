@@ -10,8 +10,8 @@ exports.up = function(knex) {
       name VARCHAR(20) NOT NULL,
       description VARCHAR(300) NOT NULL,
       picture_url TEXT NOT NULL,
-      planet VARCHAR(9) NOT NULL,
-      CONSTRAINT fk_planets FOREIGN KEY(planet) REFERENCES planets(code)
+      planet VARCHAR(9) NOT NULL REFERENCES planets(code),
+      friends INTEGER[]
     )
   `)
 };
