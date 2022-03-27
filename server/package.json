@@ -18,10 +18,15 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "apollo-server-koa": "^2.0.0-rc.12",
+    "graphql": "^14.0.2",
+    "graphql-tools": "^4.0.2",
     "knex": "^1.0.4",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-jwt": "^3.5.1",
     "koa-router": "^10.1.1",
+    "lodash": "^4.17.11",
     "pg": "^8.7.3"
   }
 }
