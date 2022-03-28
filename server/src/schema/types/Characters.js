@@ -1,22 +1,48 @@
 const { gql } = require('apollo-server-koa')
 
-export const typeDef = gql`
+const typeDef = gql`
+
+  type CharacterNode {
+    id:	ID!
+    name: String!
+    description: String!
+    pictureUrl: String!
+    planet: PlanetName!
+    friendsCount: Int
+    friends: [String!]
+  }
+  
   type Character {
-    id: ID
-    title: String
-    createdAt: String
+    pagination: Pagination!
+    nodes: [CharacterNode]!
+  }
+
+  type PlanetName {
+    name: String!
+  }
+
+  input CharacterInfo {
+    name: String!
+    description: String!
+    planet: String!
+    pictureUrl: String!
+    friends: [Int]
   }
 
   extend type Query {
-    Characters: [Character]
-    Character: Character
+    characters(pageSize: Int!, page: Int!): Character!
+    character(id: Int!): CharacterNode
+  }
+
+  extend type Mutation {
+    createCharacter(characterInfo: CharacterInfo): CharacterNode
   }
 `;
 
-export const resolvers = {
+const resolvers = {
   Query: {
-    characters: async (root, args, { models }) => {
-      return await models.Characters.getAllCharacters()
+    characters: async (root, { pageSize, page }, { models }) => {
+      return await models.Characters.getAllCharacters({ pageSize, page })
     },
 
     character: async (root, { id }, { models }) => {
@@ -24,8 +50,13 @@ export const resolvers = {
     }
   },
   Mutation: {
-    addCharacter: async (root, { name, description, planet, pictureUrl, friends }, { models }) => {
+    createCharacter: async (root, { characterInfo }, { models }) => {
+      const { name, description, planet, pictureUrl, friends } = characterInfo
       return await models.Characters.addCharacter({ name, description, planet, pictureUrl, friends })
     }
   }
 };
+
+module.exports = {
+  typeDef, resolvers
+}
