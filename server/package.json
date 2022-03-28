@@ -4,7 +4,7 @@
   "description": "Spacious planets and characters.",
   "main": "src/index.js",
   "author": "Ebuka Odini <ebukaodini@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "clean": "rm -rf node_modules",
     "start": "node src/index.js",
