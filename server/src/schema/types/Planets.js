@@ -1,5 +1,4 @@
 const { gql } = require('apollo-server-koa')
-const authMiddleware = require('../../middleware/auth')
 
 const typeDef = gql`
 
@@ -41,14 +40,12 @@ const typeDef = gql`
 const resolvers = {
 
   Query: {
-    planets: async (root, { pageSize, page }, { models, auth }) => {
-      authMiddleware(auth)
+    planets: async (root, { pageSize, page }, { models }) => {
       return await models.Planets.getAllPlanets(pageSize, page)
     }
   },
   Mutation: {
-    createPlanet: async (root, { planetInfo }, { models, auth }) => {
-      authMiddleware(auth)
+    createPlanet: async (root, { planetInfo }, { models }) => {
       const { name, description, pictureUrl } = planetInfo
       return await models.Planets.addPlanet({ name, description, pictureUrl })
     }
