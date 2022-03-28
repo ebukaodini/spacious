@@ -1,6 +1,5 @@
 const Koa = require('koa')
 const { ApolloServer } = require('apollo-server-koa')
-const jwt = require('koa-jwt')
 const schema = require('./schema/index')
 const models = require('./db/models')
 
@@ -10,20 +9,21 @@ const PORT =
     (process.env.PORT || 3000);
 
 const app = new Koa();
-// app.use(jwt({ secret: process.env.JWT_SECRET, passthrough: true }));
 
 const server = new ApolloServer({
   schema,
-  // context: ({ ctx: { state: user } }) => ({
-  //   user,
-  //   models,
-  // }),
-  context: (ctx) => ({
-    models
+  context: async (context) => ({
+    models,
+    auth: { token: context.ctx.request?.header?.authorization }
   }),
+  debug: false,
+  formatError: (err) => {
+    return { message: err.message }
+  },
   introspection: true,
   playground: true,
 });
+
 server.applyMiddleware({ app });
 
 app.listen(

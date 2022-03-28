@@ -14,6 +14,13 @@ const Query = gql`
   type Mutation {
     null: Boolean
   }
+
+  type Pagination {
+    total: Int!
+    page: Int!
+    pageSize: Int!
+  }
+
 `;
 
 const SchemaDefinition = gql`

@@ -1,12 +1,7 @@
 const { gql } = require('apollo-server-koa')
+const authMiddleware = require('../../middleware/auth')
 
 const typeDef = gql`
-
-  type Pagination {
-    total: Int!
-    page: Int!
-    pageSize: Int!
-  }
 
   type PlanetNode {
     id: ID!
@@ -19,8 +14,9 @@ const typeDef = gql`
   }
 
   type Planet {
-    pagination: Pagination!
-    nodes: [PlanetNode]!
+    pagination: Pagination
+    nodes: [PlanetNode]
+    error: String
   }
 
   type CharacterId {
@@ -37,20 +33,22 @@ const typeDef = gql`
     pictureUrl: String!
   }
 
-  # name: String!, description: String!, pictureUrl: String!
   extend type Mutation {
     createPlanet(planetInfo: PlanetInfo!): PlanetNode!
   }
 `;
 
 const resolvers = {
+
   Query: {
-    planets: async (root, { pageSize, page }, { models }) => {
+    planets: async (root, { pageSize, page }, { models, auth }) => {
+      authMiddleware(auth)
       return await models.Planets.getAllPlanets(pageSize, page)
     }
   },
   Mutation: {
-    createPlanet: async (root, {planetInfo}, { models }) => {
+    createPlanet: async (root, { planetInfo }, { models, auth }) => {
+      authMiddleware(auth)
       const { name, description, pictureUrl } = planetInfo
       return await models.Planets.addPlanet({ name, description, pictureUrl })
     }
