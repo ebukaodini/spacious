@@ -1,24 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { PlanetsPage, CreatePlanetPage, CharactersPage, CreateCharacterPage } from './pages'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={PlanetsPage} />
+        <Route exact path='/planets/create' component={CreatePlanetPage} />
+        <Route exact path='/characters' component={CharactersPage} />
+        <Route exact path='/character/create' component={CreateCharacterPage} />
+        <Route render={() => (<>Error 404<br />Sorry!</>)} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
