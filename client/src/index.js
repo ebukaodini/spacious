@@ -7,9 +7,7 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useQuery,
   createHttpLink,
-  gql
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 
@@ -31,38 +29,6 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
-
-client
-  .query({
-    query: gql`
-      # query GetRates {
-      #   rates(currency: "USD") {
-      #     currency
-      #   }
-      # }
-      query planets {
-        planets(page: 1, pageSize: 2) {
-          pagination {
-            page
-            pageSize
-            total
-          }
-          nodes {
-            id
-            name
-            description
-            code
-            pictureUrl
-            population
-            characters(limit: 3) {
-              id
-            }
-          }
-        }
-      }
-    `
-  })
-  .then(result => console.log(result));
 
 ReactDOM.render(
   <React.StrictMode>
