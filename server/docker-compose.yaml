@@ -8,6 +8,7 @@ services:
       - PORT_TEST=${PORT_TEST}
       - DB_URL=${DB_URL}
       - DB_URL_TEST=${DB_URL_TEST}
+      - StrapiBearerToken=${StrapiBearerToken}
     ports:
       - "${PORT}:${PORT}"
       - "${PORT_TEST}:${PORT_TEST}"
