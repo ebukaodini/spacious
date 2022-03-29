@@ -4,7 +4,8 @@ import { Header, FlyoutMenu } from './'
 const DesktopLayout = styled.div`
   background-color: #F5F5F5;
   width: 100vw;
-  height: 100vh;  
+  min-width: 1440px;
+  height: 100vh;
 `
 const Wrapper = styled.div`
   width: 1440px;
@@ -14,30 +15,37 @@ const Wrapper = styled.div`
   position: relative;
 `
 const Container = styled.div`
-  width: 992px;
-  height: auto;
+  width: 1140px;
+  height: 100%;
   margin: auto;
 `
 const Body = styled.div`
-  margin-top: 16px;
-
+  margin: 16px 0px;
+  
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 
-  height: 100%;
+  height: calc(100% - (32px + 160px));
   width: 100%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
 `
 
-export const Layout = ({ children }) => {
+export const Layout = ({ children, loading }) => {
 
   return (
     <DesktopLayout>
       <Wrapper>
-        
+
         <Container>
 
-          <Header />
+          <Header loading={loading} />
 
           <Body>
             {children}
@@ -45,7 +53,7 @@ export const Layout = ({ children }) => {
 
         </Container>
 
-        <FlyoutMenu />
+        {/* <FlyoutMenu /> */}
 
       </Wrapper>
     </DesktopLayout>
