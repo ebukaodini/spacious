@@ -10,6 +10,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
+import { BrowserRouter } from 'react-router-dom';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3000/graphql',
@@ -33,7 +34,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

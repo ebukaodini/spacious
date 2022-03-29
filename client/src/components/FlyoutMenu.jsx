@@ -7,25 +7,28 @@ const FlyoutMenuWrapper = styled.div`
   position: absolute;
   top: 0px;
   right: 0px;
-
 `
-
 const Menu = styled.div`
   border-radius: 32px;
-  height: calc(100% - 64px);
+  height: calc(100% - 48px);
 
-  margin: 32px 0px;
+  margin-top: 32px;
+  margin-bottom: 16px;
   
   background: #FFFFFF;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 32px;
 `
 
-export const FlyoutMenu = () => {
+export const FlyoutMenu = ({ children }) => {
 
   return (
     <FlyoutMenuWrapper>
-      <Menu> <br /> </Menu>
+      <Menu>
+
+        {children}
+
+      </Menu>
     </FlyoutMenuWrapper>
   )
 }
