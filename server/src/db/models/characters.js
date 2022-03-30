@@ -1,10 +1,13 @@
 const knex = require('../knex');
 
 function getAllCharacters({ pageSize, page }) {
+  
+  let offset = (pageSize * page) - pageSize
+
   return knex.raw(`
     SELECT id, name, description, picture_url AS "pictureUrl",
       (SELECT json_object_agg('name', name) FROM planets WHERE code = planet) AS planet
-      FROM characters;
+      FROM characters ORDER BY id DESC LIMIT ${pageSize} OFFSET ${offset};
   `).then(result => {
     return {
       pagination: {

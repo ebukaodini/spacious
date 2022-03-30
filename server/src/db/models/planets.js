@@ -8,13 +8,13 @@ function getAllPlanets(pageSize, page) {
     SELECT id, name, description, code, picture_url AS "pictureUrl",
       (SELECT COUNT(*) FROM characters WHERE planet = code) AS population,
       (SELECT array_agg(id) FROM characters WHERE planet = code LIMIT 3) as characters
-      FROM planets LIMIT ${pageSize} OFFSET ${offset};
+      FROM planets ORDER BY id DESC LIMIT ${pageSize} OFFSET ${offset};
   `).then(async result => {
     const planets = result.rows;
 
     let index = 0;
     planets.forEach(row => {
-      planets[index].characters = row.characters.map(character => ({ id: character }))
+      planets[index].characters = row?.characters?.map(character => ({ id: character }))
       index++;
     })
 
@@ -72,7 +72,7 @@ function addPlanet({ name, description, pictureUrl }) {
 
   return knex.raw(`
     INSERT INTO planets (name, description, code, picture_url)
-    VALUES (E'${name}', E'${description}', '${code}', '${pictureUrl}')
+    VALUES (E'${name}', E'${description}', '${code}', E'${pictureUrl}')
   `)
     .then(async result => {
       if (result.rowCount === 1)
