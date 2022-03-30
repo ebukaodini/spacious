@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import { Empty, Layout, Loading } from '../components'
 import { useQuery } from '@apollo/client'
-import { planets as planetsQuery } from '../store/index'
-import { useEffect, useState } from 'react'
+import { planets as planetsQuery, character as characterQuery } from '../store/index'
+import { useEffect, useRef, useState } from 'react'
+import { Plus, X } from 'react-feather'
+import { Link } from 'react-router-dom'
 
 const Wrapper = styled.div`
   /* width: 100%; */
@@ -16,7 +18,7 @@ const Grid = styled.div`
   
   /* Supports Grid */
   display: grid;
-  grid-template-columns: repeat(4, 272px);
+  grid-template-columns: repeat(${props => props.showFlyout ? 3 : 4}, 272px);
   grid-auto-rows: 200px;
   grid-gap: 16px;
 `
@@ -31,6 +33,7 @@ const ItemWrapper = styled.div`
   
   cursor: pointer;
   
+  &.focus,
   :focus, 
   :hover {
     border-color: #121C33;
@@ -93,11 +96,246 @@ const PlanetPopulation = styled.p`
   opacity: 0.6;
 `
 
+const FlyoutWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+`
+const CloseFlyoutBtn = styled.button`
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+
+  background: rgb(18, 28, 51, 0.1);
+  border-radius: 8px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+
+  cursor: pointer;
+
+  margin-bottom: 16px;
+`
+const CloseFlyoutIcon = styled.span`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 32px;
+
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #121C33;
+`
+const ItemTitle = styled.h3`
+  height: 48px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 48px;
+
+  color: #121C33;
+
+  margin-bottom: 8px;
+`
+const ItemDescription = styled.p`
+  width: 344px;
+  
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #121C33;
+  opacity: 0.6;
+
+  margin-bottom: 16px;
+`
+const PopulationTitle = styled.div`
+  width: 168px;
+  height: 24px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #121C33;
+`
+const PopulationCount = styled.div`
+  width: 168px;
+  height: 24px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  display: flex;
+  align-items: center;
+
+  color: #121C33;
+
+  margin-bottom: 16px;
+`
+const CharactersHeader = styled.div`
+  width: 100%;
+  height: 40px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 8px;
+`
+const AddBtn = styled(Link)`
+  text-decoration: none;
+  
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+
+  background: rgb(18, 28, 51, 0.1);
+  border-radius: 8px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+
+  cursor: pointer;
+`
+const AddBtnIcon = styled.span`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 32px;
+
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #121C33;
+`
+const CharacterTitle = styled.h5`
+  height: 24px;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  text-transform: uppercase;
+
+  color: #121C33;
+  opacity: 0.6;
+`
+const CharactersWrapper = styled.div`
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+`
+
+const CharacterWrapper = styled.div`
+  width: 344px;
+  height: 72px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+`
+const CharacterImageWrapper = styled.div`
+  height: 72px;
+  width: 72px;
+  border-radius: 8px;
+`
+const CharacterImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  border-radius: 8px;
+`
+const CharacterName = styled.h6`
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  display: flex;
+  align-items: center;
+
+  color: #121C33;
+`
+const CharacterFriends = styled.div`
+  height: 18px;
+  
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  
+  color: #121C33;
+  opacity: 0.6;
+`
+
+const CharacterCard = ({ id }) => {
+
+  const { data } = useQuery(characterQuery(id));
+
+  return (
+    <CharacterWrapper>
+
+      <CharacterImageWrapper>
+        <CharacterImage src={data?.character?.pictureUrl} />
+      </CharacterImageWrapper>
+
+      <div>
+        <CharacterName>{data?.character?.name}</CharacterName>
+        <CharacterFriends>{data?.character?.friendsCount ?? 0} friends</CharacterFriends>
+      </div>
+
+    </CharacterWrapper>
+  )
+
+}
+
 export const PlanetsPage = () => {
 
   const { loading, error, data } = useQuery(planetsQuery());
   const [items, setItems] = useState([])
   const [loaded, setLoaded] = useState(false)
+  const [showFlyout, setShowFlyout] = useState(false)
+  const [selectedItem, setSelectedItem] = useState({})
+
+  const fromCreatePage = useRef()
+  fromCreatePage.current = localStorage.getItem('fromCreatePage') ?? false
 
   useEffect(() => {
     if (!error) {
@@ -106,8 +344,63 @@ export const PlanetsPage = () => {
     }
   }, [data, error])
 
+  let flyout = (<></>)
+
+  if (showFlyout) {
+    flyout = (
+      <FlyoutWrapper>
+
+        <CloseFlyoutBtn onClick={() => setShowFlyout(false)}>
+          <CloseFlyoutIcon>
+            <X size={32} />
+          </CloseFlyoutIcon>
+        </CloseFlyoutBtn>
+
+        <ItemTitle>
+          {selectedItem?.name}
+        </ItemTitle>
+
+        <ItemDescription>
+          {selectedItem?.description}
+        </ItemDescription>
+
+        <PopulationTitle>Population</PopulationTitle>
+        <PopulationCount>{selectedItem?.population}</PopulationCount>
+
+        <CharactersHeader>
+
+          <CharacterTitle>
+            CHARACTERS
+          </CharacterTitle>
+
+          <AddBtn to={{
+            pathname: '/characters/create',
+            state: { modal: true, planet: selectedItem?.code }
+          }}>
+            <AddBtnIcon>
+              <Plus size={32} />
+            </AddBtnIcon>
+          </AddBtn>
+
+        </CharactersHeader>
+
+        <CharactersWrapper>
+          {
+            (selectedItem?.characters?.length > 0) &&
+            selectedItem?.characters?.map(character => (
+              <CharacterCard key={character?.id} id={character?.id} />
+            ))
+          }
+        </CharactersWrapper>
+
+
+      </FlyoutWrapper>
+    )
+
+  }
+
   return (
-    <Layout loading={loading}>
+    <Layout loading={loading} showFlyout={showFlyout} flyout={flyout}>
 
       {
         loading === true ?
@@ -117,12 +410,15 @@ export const PlanetsPage = () => {
             <Empty />
             :
             <Wrapper>
-              <Grid>
+              <Grid showFlyout={showFlyout}>
                 {
                   items?.map((item, index) => (
 
-                    <ItemWrapper key={index}
-                      onClick={() => { alert(item.name) }}
+                    <ItemWrapper className={selectedItem?.id === item?.id ? 'focus' : ''} id={`__planet_${index}`} key={index}
+                      onClick={async () => {
+                        setShowFlyout(true)
+                        setSelectedItem(item)
+                      }}
                     >
                       <Item>
 
