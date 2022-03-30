@@ -1,8 +1,21 @@
 version: '3.4'
 services:
   app:
-    build: .
-    container_name: spacious-backend
+    build: ./client/
+    container_name: spacious-app
+    environment:
+      - REACT_APP_StrapiBearerToken=${REACT_APP_StrapiBearerToken}
+    ports:
+      - "4000:4000"
+    links:
+      - server
+    volumes:
+      - ./client/:/app/
+    depends_on:
+      - server
+  server:
+    build: ./server/
+    container_name: spacious-server
     environment:
       - PORT=${PORT}
       - PORT_TEST=${PORT_TEST}
@@ -15,12 +28,12 @@ services:
     links:
       - db
     volumes:
-      - .:/app/
+      - ./server/:/app/
     depends_on:
       - db
   db:
     build:
-      context: ./src/db
+      context: ./server/src/db
       dockerfile: Dockerfile
     container_name: postgres
     environment:
