@@ -10,17 +10,24 @@ chai.use(chaiHttp);
 
 describe('Test Server Connection', () => {
 
-  it('should return success', (done) => {
+  it('should connect', (done) => {
     chai.request(server)
       .get('/')
       .end((err, res) => {
         should.not.exist(err);
-        res.status.should.eql(200);
-        res.type.should.eql('application/json');
-        res.body.status.should.equal('success');
-        res.body.message.should.eql('hello, world!');
         done();
       });
+  });
+
+  it('should return not found', (done) => {
+    chai.request(server)
+    .get('/')
+    .end((err, res) => {
+      should.not.exist(err);
+      res.status.should.eql(404);
+      res.text.should.eql('Not Found')
+      done();
+    });
   });
 
 });
