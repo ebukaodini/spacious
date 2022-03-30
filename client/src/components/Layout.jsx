@@ -25,11 +25,12 @@ const Body = styled.div`
   margin: 16px 0px;
   
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 
   height: calc(100% - (32px + 160px));
-  width: 100%;
+  width: ${props => props.showFlyout ? '75%' : '100%'};
 
   overflow-y: auto;
   overflow-x: hidden;
@@ -40,14 +41,21 @@ const Body = styled.div`
 
   position: relative;
 `
-const Fab = styled(Link)`
-  position: absolute;
-  bottom: 24px;
+const FabWrapper = styled.div`
+  align-self: flex-end;
+  
+  position: sticky;
+  /* top: calc(100% - 48px); */
+  top: calc(100% - 96px);
   right: 24px;
 
   width: 56px;
   height: 56px;
-
+`
+const Fab = styled(Link)`
+  width: 56px;
+  height: 56px;
+  
   background: #121C33;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 40px;
@@ -55,22 +63,24 @@ const Fab = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  `
+`
 const FabIcon = styled.span`
   width: 32px;
   height: 32px;
-  left: 1244px;
-  top: 740px;
 
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
   line-height: 32px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   color: #FFFFFF;
 `
 
-export const Layout = ({ children, loading }) => {
+export const Layout = ({ children, loading, showFlyout, flyout }) => {
 
   const { path } = useRouteMatch()
   const linkTo = path === '/' ? '/planets/create' : '/characters/create'
@@ -83,22 +93,28 @@ export const Layout = ({ children, loading }) => {
 
           <Header loading={loading} />
 
-          <Body>
+          <Body showFlyout={showFlyout}>
             {children}
 
-            <Fab to={{
-              pathname: linkTo,
-              state: { modal: true }
-            }}>
-              <FabIcon>
-                <Plus size={32} />
-              </FabIcon>
-            </Fab>
+            <FabWrapper>
+              <Fab to={{
+                pathname: linkTo,
+                state: { modal: true }
+              }}>
+                <FabIcon>
+                  <Plus size={32} />
+                </FabIcon>
+              </Fab>
+            </FabWrapper>
+
           </Body>
 
         </Container>
 
-        {/* <FlyoutMenu /> */}
+        {
+          showFlyout === true
+          && < FlyoutMenu>{flyout}</FlyoutMenu>
+        }
 
       </Wrapper>
     </DesktopLayout>

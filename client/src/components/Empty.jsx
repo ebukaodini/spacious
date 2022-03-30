@@ -75,7 +75,11 @@ export const Empty = () => {
         <EmptyText>
           Space doesn't have to be so empty.
         </EmptyText>
-        <EmptyButton to={`/${resource.toLowerCase()}s/create`}>
+        <EmptyButton
+          to={{
+            pathname: `/${resource.toLowerCase()}s/create`,
+            state: { modal: true }
+          }}>
           CREATE {resource}
         </EmptyButton>
       </Content>

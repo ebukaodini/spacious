@@ -46,7 +46,7 @@ export const Loading = () => {
     <Wrapper>
       <Content>
         <Loader>
-          <img src={PlanetLoader} alt="Loading" />
+          <img src={PlanetLoader} alt="Loader" />
         </Loader>
       </Content>
     </Wrapper>

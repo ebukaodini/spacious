@@ -1,4 +1,4 @@
-import { withRouter } from "react-router-dom";
+import { createPortal } from "react-dom";
 import styled from "styled-components";
 
 const ModalWrapper = styled.div`
@@ -8,18 +8,30 @@ const ModalWrapper = styled.div`
   bottom: 0px;
   right: 0px;
 
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   color: #FFFFFF;
   font-size: 40px;
 `
+const Content = styled.div`
+  height: 100%;
+  width: 100%;
 
-const Modal = ({ children, onClick }) => {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  return (
-    <ModalWrapper onClick={() => onClick()}>
-      {children}
-    </ModalWrapper>
+  overflow-y: auto;
+`
+
+export const Modal = ({ children }) => {
+
+  return createPortal(
+    <ModalWrapper>
+      <Content>
+        {children}
+      </Content>
+    </ModalWrapper>,
+    document.getElementById("modal_root")
   )
-}
 
-export default withRouter(Modal)
+}
