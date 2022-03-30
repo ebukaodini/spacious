@@ -43,16 +43,18 @@ const character = (id) => {
   `
 }
 
-const createCharacter = (name, description, planet, pictureUrl, friends) => {
+const createCharacter = () => {
   return gql`
-    mutation createCharacter {
-      createCharacter(characterInfo: {
-        name: ${name},
-        description: ${description},
-        planet: ${planet},
-        pictureUrl: ${pictureUrl},
-        friends: ${friends}
-      }) {
+    mutation createCharacter($name: String!, $description: String!, $planet: String!, $pictureUrl: String!, $friends: [Int]) {
+      createCharacter(
+        characterInfo: {
+          name: $name,
+          description: $description,
+          planet: $planet,
+          pictureUrl: $pictureUrl,
+          friends: $friends
+        }
+      ) {
         id
         name
         description

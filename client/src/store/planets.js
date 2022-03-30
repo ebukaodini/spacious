@@ -25,14 +25,14 @@ const planets = (page, pageSize) => {
   `
 }
 
-const createPlanet = (name, description, pictureUrl) => {
+const createPlanet = () => {
   return gql`
-    mutation createPlanet {
+    mutation createPlanet($name: String!, $description: String!, $pictureUrl: String!) {
       createPlanet(
         planetInfo: {
-          name: ${name}
-          description: ${description}
-          pictureUrl: ${pictureUrl}
+          name: $name
+          description: $description
+          pictureUrl: $pictureUrl
         }
       ) {
         id
@@ -48,5 +48,7 @@ const createPlanet = (name, description, pictureUrl) => {
     }
   `
 }
+
+
 
 export { planets, createPlanet }
