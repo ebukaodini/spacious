@@ -6,7 +6,7 @@
   "author": "Ebuka Odini <ebukaodini@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf node_modules package-lock.json",
     "start": "node src/index.js",
     "start:dev": "nodemon src/index.js",
     "test": "mocha test/*.spec.js --exit"
